@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,7 +19,7 @@ import java.util.List;
  * @author danny.jiang
  */
 
-public class WebpImageView extends android.support.v7.widget.AppCompatImageView {
+public class WebpImageView extends androidx.appcompat.widget.AppCompatImageView {
     private static final String TAG = "WebpImageView";
 
     public static final int STATUS_DEFAULT = 0;
