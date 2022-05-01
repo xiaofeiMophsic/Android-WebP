@@ -227,6 +227,7 @@ public class FrameSequenceDrawable extends Drawable implements Animatable, Runna
         public void run() {
             if (mOnAnimationListener != null) {
                 mOnAnimationListener.onFinished(FrameSequenceDrawable.this);
+                currentLoopCount = 0;
             }
         }
     };
@@ -337,6 +338,8 @@ public class FrameSequenceDrawable extends Drawable implements Animatable, Runna
         }
     }
 
+    private int currentLoopCount = 0;
+
     @Override
     public void draw(Canvas canvas) {
         synchronized (mLock) {
@@ -358,9 +361,16 @@ public class FrameSequenceDrawable extends Drawable implements Animatable, Runna
 
                 mLastSwap = SystemClock.uptimeMillis();
 
+                int defaultLoopCount = mFrameSequence.getDefaultLoopCount();
+
                 boolean continueLooping = true;
                 if (mNextFrameToDecode >= mFrameSequence.getFrameCount() - 1) {
-                    continueLooping = false;
+
+                    if (mLoopBehavior != LOOP_INF) {
+                        if (currentLoopCount >= defaultLoopCount || mLoopBehavior == LOOP_ONCE) {
+                            continueLooping = false;
+                        }
+                    }
                 }
 
                 if (continueLooping) {
@@ -377,8 +387,21 @@ public class FrameSequenceDrawable extends Drawable implements Animatable, Runna
     private void scheduleDecodeLocked() {
         mState = STATE_SCHEDULED;
         mNextFrameToDecode += 2;
+
+        int defaultLoopCount = mFrameSequence.getDefaultLoopCount();
+
         if (mNextFrameToDecode > mFrameSequence.getFrameCount() - 1) {
-            mNextFrameToDecode = mFrameSequence.getFrameCount() - 1;
+            if (mLoopBehavior != LOOP_INF) {
+                if (currentLoopCount >= defaultLoopCount || mLoopBehavior == LOOP_ONCE) {
+                    mNextFrameToDecode = mFrameSequence.getFrameCount() - 1;
+                } else {
+                    mNextFrameToDecode = 0;
+                    currentLoopCount++;
+                }
+            } else {
+                mNextFrameToDecode = 0;
+                currentLoopCount++;
+            }
         }
         sDecodingThreadHandler.post(mDecodeRunnable);
     }

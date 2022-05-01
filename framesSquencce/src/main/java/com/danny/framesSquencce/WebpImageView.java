@@ -250,7 +250,8 @@ public class WebpImageView extends androidx.appcompat.widget.AppCompatImageView 
 
     public void setNeutralAnimationCount(int neutralAnimationCount) {
         if (drawableList.get(STATUS_NEUTRAL) == null) return;
-        drawableList.get(STATUS_NEUTRAL).setAnimationCount(neutralAnimationCount);
+        drawableList.get(STATUS_NEUTRAL).setAnimationCount(3);
+//        drawableList.get(STATUS_NEUTRAL).setLoopBehavior(FrameSequenceDrawable.LOOP_INF);
     }
 
     public void setFinalAnimationCount(int finalAnimationCount) {

@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         webpImageView.setNeutralDrawable(getResources().openRawResource(R.raw.ben_sad_blink_right));
         webpImageView.setFinalDrawable(getResources().openRawResource(R.raw.ben_happy_talk_right));
         // set animation count for DEFAULT & NEUTRAL & FINAL animation
-        webpImageView.setDefaultAnimationCount(10);
+        webpImageView.setDefaultAnimationCount(100);
         webpImageView.setNeutralAnimationCount(10);
         webpImageView.setFinalAnimationCount(10);
     }
